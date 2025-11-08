@@ -37,11 +37,10 @@ export default function App() {
       <img
         src={theme === "light" ? Light : Dark}
         alt="background"
-        className="absolute top-0 left-0 w-full max-w-[462px] h-[200px] z-0 object-cover"
+        className="absolute -top-9 left-0 w-full  z-0 object-cover"
       />
-      <header className="flex flex-row items-center justify-between w-full max-w-md mb-6 p-3 z-10 transform -translate-x-1 -translate-y-14">
+      <header className="flex flex-row items-center justify-between w-full max-w-md mb-6 p-1 z-10 transform -translate-x-1 -translate-y-14">
         <h1 className="text-4xl font-bold text-white">TODO</h1>
-
         {theme === "light" ? (
           <img
             src={Moon}
