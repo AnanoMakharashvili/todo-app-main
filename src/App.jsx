@@ -16,11 +16,9 @@ export default function App() {
   ]);
   const [newTodo, setNewTodo] = useState("");
   const [filter, setFilter] = useState("all");
-
   const toggleTheme = () => {
     setTheme(theme === "light" ? "dark" : "light");
   };
-
   const toggleTodo = (id) => {
     setTodos(
       todos.map((todo) =>
@@ -28,7 +26,6 @@ export default function App() {
       )
     );
   };
-
   const deleteTodo = (id) => {
     setTodos(todos.filter((todo) => todo.id !== id));
   };
@@ -44,11 +41,9 @@ export default function App() {
       setNewTodo("");
     }
   };
-
   const clearCompleted = () => {
     setTodos(todos.filter((todo) => !todo.completed));
   };
-
   const filteredTodos = todos.filter((todo) => {
     if (filter === "active") return !todo.completed;
     if (filter === "completed") return todo.completed;
@@ -66,10 +61,8 @@ export default function App() {
         alt="background"
         className="absolute -top-9 left-0 w-full z-0 object-cover"
       />
-
       <header className="flex flex-row items-center justify-between w-full max-w-md mb-6 p-1 z-10 transform -translate-x-1 -translate-y-14">
         <h1 className="text-4xl font-bold text-white">TODO</h1>
-
         {theme === "light" ? (
           <img
             src={Moon}
@@ -86,7 +79,6 @@ export default function App() {
           />
         )}
       </header>
-
       <div className="w-full max-w-md mb-4">
         <input
           type="text"
@@ -101,7 +93,6 @@ export default function App() {
           }`}
         />
       </div>
-
       <div
         className={`w-full max-w-md rounded-md shadow-md divide-y mb-4 -translate-x-1 -translate-y-20 ${
           theme === "light"
@@ -146,7 +137,6 @@ export default function App() {
                 {todo.text}
               </span>
             </div>
-
             <button
               onClick={() => deleteTodo(todo.id)}
               className={`${
@@ -159,7 +149,6 @@ export default function App() {
             </button>
           </div>
         ))}
-
         <div
           className={`flex flex-row items-center justify-between p-3 text-sm ${
             theme === "light" ? "text-gray-600" : "text-gray-400"
@@ -171,7 +160,6 @@ export default function App() {
           </button>
         </div>
       </div>
-
       <div
         className={`w-full max-w-md flex justify-center items-center text-sm mb-2 rounded-md cursor-pointer ${
           theme === "light"
@@ -200,7 +188,6 @@ export default function App() {
           </button>
         </div>
       </div>
-
       <span
         className={`text-sm mb-4 ${
           theme === "light" ? "text-gray-400" : "text-gray-500"
