@@ -6,11 +6,6 @@ import Sun from "./assets/icon-sun.svg";
 
 export default function App() {
   const [theme, setTheme] = useState("light");
-
-  const toggleTheme = () => {
-    setTheme(theme === "light" ? "dark" : "light");
-  };
-
   const [todos, setTodos] = useState([
     { id: 1, text: "Complete online JavaScript course", completed: false },
     { id: 2, text: "Jog around the park 3x", completed: false },
@@ -19,6 +14,12 @@ export default function App() {
     { id: 5, text: "Pick up groceries", completed: false },
     { id: 6, text: "Complete Todo App on Frontend Mentor", completed: false },
   ]);
+  const [newTodo, setNewTodo] = useState("");
+  const [filter, setFilter] = useState("all");
+
+  const toggleTheme = () => {
+    setTheme(theme === "light" ? "dark" : "light");
+  };
 
   const toggleTodo = (id) => {
     setTodos(
@@ -27,6 +28,32 @@ export default function App() {
       )
     );
   };
+
+  const deleteTodo = (id) => {
+    setTodos(todos.filter((todo) => todo.id !== id));
+  };
+
+  const handleAddTodo = (e) => {
+    if (e.key === "Enter" && newTodo.trim() !== "") {
+      const newItem = {
+        id: Date.now(),
+        text: newTodo.trim(),
+        completed: false,
+      };
+      setTodos([...todos, newItem]);
+      setNewTodo("");
+    }
+  };
+
+  const clearCompleted = () => {
+    setTodos(todos.filter((todo) => !todo.completed));
+  };
+
+  const filteredTodos = todos.filter((todo) => {
+    if (filter === "active") return !todo.completed;
+    if (filter === "completed") return todo.completed;
+    return true;
+  });
 
   return (
     <div
@@ -37,10 +64,12 @@ export default function App() {
       <img
         src={theme === "light" ? Light : Dark}
         alt="background"
-        className="absolute -top-9 left-0 w-full  z-0 object-cover"
+        className="absolute -top-9 left-0 w-full z-0 object-cover"
       />
+
       <header className="flex flex-row items-center justify-between w-full max-w-md mb-6 p-1 z-10 transform -translate-x-1 -translate-y-14">
         <h1 className="text-4xl font-bold text-white">TODO</h1>
+
         {theme === "light" ? (
           <img
             src={Moon}
@@ -62,6 +91,9 @@ export default function App() {
         <input
           type="text"
           placeholder="Create a new todo…"
+          value={newTodo}
+          onChange={(e) => setNewTodo(e.target.value)}
+          onKeyDown={handleAddTodo}
           className={`w-full p-3 rounded-md border focus:outline-none focus:ring-2 transform -translate-x-2 -translate-y-20 ${
             theme === "light"
               ? "border-gray-300 focus:ring-blue-500 bg-white text-black"
@@ -77,7 +109,7 @@ export default function App() {
             : "bg-[#25273c] divide-gray-700"
         }`}
       >
-        {todos.map((todo) => (
+        {filteredTodos.map((todo) => (
           <div
             key={todo.id}
             className="flex justify-between items-center p-4 cursor-pointer"
@@ -96,11 +128,10 @@ export default function App() {
                 }`}
               >
                 {todo.completed && (
-                  <span className="text-white text-xs font-bold transition-opacity duration-200 opacity-100">
-                    ✓
-                  </span>
+                  <span className="text-white text-xs font-bold">✓</span>
                 )}
               </div>
+
               <span
                 className={`transition-all duration-300 ${
                   todo.completed
@@ -117,6 +148,7 @@ export default function App() {
             </div>
 
             <button
+              onClick={() => deleteTodo(todo.id)}
               className={`${
                 theme === "light"
                   ? "text-gray-400 hover:text-gray-600"
@@ -134,7 +166,9 @@ export default function App() {
           }`}
         >
           <span>{todos.filter((t) => !t.completed).length} items left</span>
-          <button className="hover:text-blue-400">Clear Completed</button>
+          <button onClick={clearCompleted} className="hover:text-blue-400">
+            Clear Completed
+          </button>
         </div>
       </div>
 
@@ -146,9 +180,24 @@ export default function App() {
         }`}
       >
         <div className="flex flex-row gap-4 items-center py-3">
-          <button className="hover:text-blue-400">All</button>
-          <button className="hover:text-blue-400">Active</button>
-          <button className="hover:text-blue-400">Completed</button>
+          <button
+            onClick={() => setFilter("all")}
+            className="hover:text-blue-400"
+          >
+            All
+          </button>
+          <button
+            onClick={() => setFilter("active")}
+            className="hover:text-blue-400"
+          >
+            Active
+          </button>
+          <button
+            onClick={() => setFilter("completed")}
+            className="hover:text-blue-400"
+          >
+            Completed
+          </button>
         </div>
       </div>
 
